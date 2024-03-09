@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  contactdb:
+    image: "mysql:8.0"
+    container_name: contactdb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: contact
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+
+  contact-app:
+    build: .
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      DB_SERVER: contactdb
+      MYSQL_DATABASE: contact
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    depends_on:
+      - contactdb
